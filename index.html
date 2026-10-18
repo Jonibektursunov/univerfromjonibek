@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joni.tj — Элитный цифровой университет</title>
+    <style>
+        :root {
+            --bg-color: #060913;
+            --text-color: #f1f5f9;
+            --card-bg: rgba(19, 34, 53, 0.7);
+            --card-border: rgba(0, 242, 254, 0.25);
+            --accent-color: #00f2fe;
+            --accent-secondary: #4facfe;
+            --header-bg: rgba(7, 13, 20, 0.85);
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f0f4f8;
+            --text-color: #1e293b;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(0, 180, 216, 0.3);
+            --accent-color: #0077b6;
+            --accent-secondary: #00b4d8;
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 242, 254, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(79, 172, 254, 0.08) 0%, transparent 40%);
+            background-attachment: fixed;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Премиальная шапка (Glassmorphism) */
+        header {
+            background: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            opacity: 0.85;
+            transition: opacity 0.3s, color 0.3s;
+            cursor: pointer;
+        }
+
+        nav ul li a:hover {
+            opacity: 1;
+            color: var(--accent-color);
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-control {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--card-border);
+            padding: 8px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .btn-control:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        /* Главный Hero-блок */
+        .hero {
+            padding: 120px 20px 100px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            margin-bottom: 20px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 19px;
+            max-width: 750px;
+            margin: 0 auto 40px;
+            opacity: 0.8;
+        }
+
+        .btn-main {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            color: #060913;
+            padding: 16px 36px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(0, 242, 254, 0.5);
+        }
+
+        /* Секции */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 38px;
+            margin-bottom: 50px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* Карточки Glassmorphism */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.3s;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-secondary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-color);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .card p {
+            font-size: 15px;
+            opacity: 0.75;
+            line-height: 1.7;
+        }
+
+        /* Форма заявки */
+        .apply-container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 50px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--card-border);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            color: var(--text-color);
+            outline: none;
+            font-size: 15px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
+        }
+
+        .status-box {
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 12px;
+            background: rgba(0, 242, 254, 0.12);
+            border: 1px solid var(--accent-color);
+            display: none;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* ИИ Чат виджет */
+        .ai-chat-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            color: #060913;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 242, 254, 0.4);
+            z-index: 1001;
+            border: none;
+            transition: transform 0.3s;
+        }
+
+        .ai-chat-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .ai-chat-window {
+            position: fixed;
+            bottom: 110px;
+            right: 30px;
+            width: 350px;
+            height: 450px;
+            background: var(--card-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--card-border);
+            display: none;
+            flex-direction: column;
+            z-index: 1001;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: var(--header-bg);
+            color: var(--text-color);
+            padding: 18px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .msg {
+            padding: 10px 14px;
+            border-radius: 12px;
+            max-width: 85%;
+        }
+
+        .msg.bot {
+            background: rgba(0, 242, 254, 0.15);
+            align-self: flex-start;
+            border: 1px solid var(--card-border);
+        }
+
+        .msg.user {
+            background: var(--accent-color);
+            color: #060913;
+            align-self: flex-end;
+            font-weight: 600;
+        }
+
+        .chat-input-area {
+            padding: 12px;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            color: var(--text-color);
+            outline: none;
+        }
+
+        .chat-input-area button {
+            background: var(--accent-color);
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #060913;
+        }
+
+        /* Футер */
+        footer {
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--card-border);
+            text-align: center;
+            padding: 50px 0;
+            margin-top: 80px;
+            opacity: 0.85;
+            font-size: 14px;
+        }
+        /* Адаптивность для смартфонов и планшетов (экраны меньше 768px) */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 0 10px;
+    }
+
+    /* Шапка и навигация */
+    header .container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .nav-wrapper {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    nav ul li a {
+        font-size: 14px;
+    }
+
+    /* Заголовки и тексты */
+    .hero {
+        padding: 60px 15px 50px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+        line-height: 1.3;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .section-title, .page-header h1 {
+        font-size: 28px !important;
+    }
+
+    /* Сетки карточек и формы в одну колонку */
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .apply-container, .quiz-container {
+        padding: 20px 15px;
+        margin: 0 10px;
+    }
+
+    /* ИИ Чат виджет на телефоне */
+    .ai-chat-window {
+        width: 90% !important;
+        right: 5% !important;
+        bottom: 90px !important;
+        height: 380px;
+    }
+
+    .ai-chat-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 55px;
+        height: 55px;
+        font-size: 22px;
+    }
+}
+    </style>
+</head>
+<body data-theme="dark">
+
+    <!-- Шапка -->
+    <header>
+        <div class="container">
+            <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="logo">JONI<span>.TJ</span></a>
+            <div class="nav-wrapper">
+                <nav>
+                    <ul>
+                        <li><a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" data-ru="Главная" data-tj="Асосӣ">Главная</a></li>
+                        <li><a href="#faculties" data-ru="Факультеты" data-tj="Факултетҳо">Факультеты</a></li>
+                        <li><a href="news.html" data-ru="Новости" data-tj="Хабарҳо">Новости</a></li>
+                        <li><a href ="test.html" data-ru= Тест и шансы" data-tj="Санҷиш ва Шансҳо">Тест и шансы</a></li>
+                        <li><a href="#apply" data-ru="Подать заявку" data-tj="Пешниҳоди ариза">Подать заявку</a></li>
+                    </ul>
+                </nav>
+                <div class="controls">
+                    <button class="btn-control" id="langToggle" onclick="toggleLanguage()">TJ</button>
+                    <button class="btn-control" id="themeToggle" onclick="toggleTheme()">☀️</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero-блок -->
+    <section class="hero">
+        <div class="container">
+            <h1 id="heroTitle">Образование будущего на базе <span>Joni.tj</span></h1>
+            <p id="heroDesc">Инновационный цифровой университет, объединяющий передовые IT-технологии, экономику и международные стандарты обучения.</p>
+            <a href="#apply" class="btn-main" id="heroBtn">Поступить онлайн</a>
+        </div>
+    </section>
+
+    <!-- Факультеты -->
+    <section class="section container" id="faculties">
+        <h2 class="section-title" id="facTitle">Наши факультеты</h2>
+        <div class="grid">
+            <div class="card">
+                <h3 id="f1Name">Информационные технологии</h3>
+                <p id="f1Desc">Разработка ПО, искусственный интеллект, кибербезопасность и облачные архитектуры.</p>
+            </div>
+            <div class="card">
+                <h3 id="f2Name">Экономика и финансы</h3>
+                <p id="f2Desc">Цифровая экономика, финтех, блокчейн-аналитика и международный бизнес.</p>
+            </div>
+            <div class="card">
+                <h3 id="f3Name">Юриспруденция</h3>
+                <p id="f3Desc">Международное право, киберправо и защита цифровых интеллектуальных прав.</p>
+            </div>
+            <div class="card">
+                <h3 id="f4Name">Бизнес и мировая экономика</h3>
+                <p id="f4Desc">Управление проектами, стартап-экосистемы и глобальная торговля.</p>
+            </div>
+            <div class="card">
+                <h3 id="f5Name">Политология и МО</h3>
+                <p id="f5Desc">Дипломатия, аналитика глобальных процессов и международные отношения.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма заявки -->
+    <section class="section container" id="apply">
+        <h2 class="section-title" id="applyTitle">Электронная подача заявки</h2>
+        <div class="apply-container">
+            <form id="applicationForm" onsubmit="submitApplication(event)">
+                <div class="form-group">
+                    <label id="lblName">ФИО абитуриента:</label>
+                    <input type="text" id="fullName" required placeholder="Имя Фамилия">
+                </div>
+                <div class="form-group">
+                    <label id="lblPhone">Номер телефона:</label>
+                    <input type="tel" id="phone" required placeholder="+992 XX XXX XX XX">
+                </div>
+                <div class="form-group">
+                    <label id="lblFac">Выберите факультет:</label>
+                    <select id="facultySelect">
+                        <option value="IT" id="opt1">Информационные технологии</option>
+                        <option value="Eco" id="opt2">Экономика и финансы</option>
+                        <option value="Law" id="opt3">Юриспруденция</option>
+                        <option value="Business" id="opt4">Бизнес и мировая экономика</option>
+                        <option value="Pol" id="opt5">Политология и МО</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-main" style="width: 100%; border: none; cursor: pointer; border-radius: 12px;" id="btnSubmit">Отправить заявку</button>
+            </form>
+            <div class="status-box" id="statusBox"></div>
+        </div>
+    </section>
+
+    <!-- ИИ Чат виджет -->
+    <button class="ai-chat-btn" onclick="toggleChat()">💬</button>
+    <div class="ai-chat-window" id="chatWindow">
+        <div class="chat-header">
+            <span id="chatTitle">ИИ Ассистент Joni.tj</span>
+            <span style="cursor: pointer;" onclick="toggleChat()">✖</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="msg bot" id="botWelcome">Салом! Чем могу помочь по поводу поступления?</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Введите вопрос...">
+            <button onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <p id="footerText">&copy; 2026 Цифровой университетский портал Joni.tj. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentLang = 'ru';
+        let currentTheme = 'dark';
+
+        function toggleTheme() {
+            const htmlNode = document.documentElement;
+            const themeBtn = document.getElementById('themeToggle');
+            
+            if (currentTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'light');
+                themeBtn.textContent = '🌙';
+                currentTheme = 'light';
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                themeBtn.textContent = '☀️';
+                currentTheme = 'dark';
+            }
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ru' ? 'tj' : 'ru';
+            document.getElementById('langToggle').textContent = currentLang === 'ru' ? 'TJ' : 'RU';
+            updateTexts();
+        }
+
+        function updateTexts() {
+            const t = translations[currentLang];
+            document.getElementById('heroTitle').innerHTML = t.heroTitle;
+            document.getElementById('heroDesc').textContent = t.heroDesc;
+            document.getElementById('heroBtn').textContent = t.heroBtn;
+            document.getElementById('facTitle').textContent = t.facTitle;
+            
+            document.getElementById('f1Name').textContent = t.f1Name;
+            document.getElementById('f1Desc').textContent = t.f1Desc;
+            document.getElementById('f2Name').textContent = t.f2Name;
+            document.getElementById('f2Desc').textContent = t.f2Desc;
+            document.getElementById('f3Name').textContent = t.f3Name;
+            document.getElementById('f3Desc').textContent = t.f3Desc;
+            document.getElementById('f4Name').textContent = t.f4Name;
+            document.getElementById('f4Desc').textContent = t.f4Desc;
+            document.getElementById('f5Name').textContent = t.f5Name;
+            document.getElementById('f5Desc').textContent = t.f5Desc;
+
+            document.getElementById('applyTitle').textContent = t.applyTitle;
+            document.getElementById('lblName').textContent = t.lblName;
+            document.getElementById('lblPhone').textContent = t.lblPhone;
+            document.getElementById('lblFac').textContent = t.lblFac;
+            document.getElementById('btnSubmit').textContent = t.btnSubmit;
+            document.getElementById('footerText').textContent = t.footerText;
+            document.getElementById('botWelcome').textContent = t.botWelcome;
+        }
+
+        const translations = {
+            ru: {
+                heroTitle: "Образование будущего на базе <span>Joni.tj</span>",
+                heroDesc: "Инновационный цифровой университет, объединяющий передовые IT-технологии, экономику и международные стандарты обучения.",
+                heroBtn: "Поступить онлайн",
+                facTitle: "Наши факультеты",
+                f1Name: "Информационные технологии", f1Desc: "Разработка ПО, искусственный интеллект, кибербезопасность и облачные архитектуры.",
+                f2Name: "Экономика и финансы", f2Desc: "Цифровая экономика, финтех, блокчейн-аналитика и международный бизнес.",
+                f3Name: "Юриспруденция", f3Desc: "Международное право, киберправо и защита цифровых интеллектуальных прав.",
+                f4Name: "Бизнес и мировая экономика", f4Desc: "Управление проектами, стартап-экосистемы и глобальная торговля.",
+                f5Name: "Политология и МО", f5Desc: "Дипломатия, аналитика глобальных процессов и международные отношения.",
+                applyTitle: "Электронная подача заявки",
+                lblName: "ФИО абитуриента:",
+                lblPhone: "Номер телефона:",
+                lblFac: "Выберите факультет:",
+                btnSubmit: "Отправить заявку",
+                footerText: "© 2026 Цифровой университетский портал Joni.tj. Все права защищены.",
+                botWelcome: "Салом! Чем могу помочь по поводу поступления?"
+            },
+            tj: {
+                heroTitle: "Таълими оянда дар сомонаи <span>Joni.tj</span>",
+                heroDesc: "Донишгоҳи инноватсионии рақамӣ, ки технологияҳои пешрафтаи IT, иқтисод ва стандартҳои байналмилалии таълимро муттаҳид мекунад.",
+                heroBtn: "Дохил шудан онлайн",
+                facTitle: "Факултетҳои мо",
+                f1Name: "Технологияҳои иттилоотӣ", f1Desc: "Рушди барномаҳо, зеҳни сунъӣ, амнияти киберӣ ва меъмории абрӣ.",
+                f2Name: "Иқтисод ва молия", f2Desc: "Иқтисоди рақамӣ, финтех, таҳлили блокчейн ва тиҷорати байналмилалӣ.",
+                f3Name: "Ҳуқуқшиносӣ", f3Desc: "Ҳуқуқи байналмилалӣ, киберҳуқуқ ва ҳимояи ҳуқуқҳои зеҳнии рақамӣ.",
+                f4Name: "Тиҷорат ва иқтисоди ҷаҳонӣ", f4Desc: "Идоракунии лоиҳаҳо, экосистемаҳои стартапӣ ва савдои глобалӣ.",
+                f5Name: "Сиёсатшиносӣ ва МБ", f5Desc: "Дипломатия, таҳлили равандҳои глобалӣ ва муносибатҳои байналмилалӣ.",
+                applyTitle: "Пешниҳоди аризаи электронӣ",
+                lblName: "ФИҲ-и довталаб:",
+                lblPhone: "Рақами телефон:",
+                lblFac: "Факултетро интихоб кунед:",
+                btnSubmit: "Ирсоли ариза",
+                footerText: "© 2026 Портали университетии рақамии Joni.tj. Ҳамаи ҳуқуқҳо ҳифз шудаанд.",
+                botWelcome: "Салом! Дар бораи дохил шудан чӣ ёрӣ расонам?"
+            }
+        };
+
+        function submitApplication(e) {
+            e.preventDefault();
+            const name = document.getElementById('fullName').value;
+            const appId = Math.floor(100000 + Math.random() * 900000);
+            const statusBox = document.getElementById('statusBox');
+            statusBox.style.display = 'block';
+            statusBox.innerHTML = currentLang === 'ru' 
+                ? `✅ Заявка успешно принята, ${name}! Ваш ID: #${appId}. Статус: На рассмотрении.`
+                : `✅ Ариза бо муваффақият қабул шуд, ${name}! Рақами ID-и шумо: #${appId}. Ҳолат: Дар барраси.`;
+            document.getElementById('applicationForm').reset();
+        }
+
+        function toggleChat() {
+            const chat = document.getElementById('chatWindow');
+            chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML += `<div class="msg user">${text}</div>`;
+            input.value = '';
+
+            setTimeout(() => {
+                const reply = currentLang === 'ru' 
+                    ? "Спасибо за вопрос! Наш приёмная комиссия свяжется с вами в ближайшее время." 
+                    : "Ташаккур барои савол! Кумитаи қабули мо ба зудӣ бо шумо тамос мегирад.";
+                chatMessages.innerHTML += `<div class="msg bot">${reply}</div>`;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 700);
+        }
+    </script>
+</body>
+</html>

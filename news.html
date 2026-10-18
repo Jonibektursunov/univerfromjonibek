@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joni.tj — Новости и события</title>
+    <style>
+        :root {
+            --bg-color: #060913;
+            --text-color: #f1f5f9;
+            --card-bg: rgba(19, 34, 53, 0.7);
+            --card-border: rgba(0, 242, 254, 0.25);
+            --accent-color: #00f2fe;
+            --accent-secondary: #4facfe;
+            --header-bg: rgba(7, 13, 20, 0.85);
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f0f4f8;
+            --text-color: #1e293b;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(0, 180, 216, 0.3);
+            --accent-color: #0077b6;
+            --accent-secondary: #00b4d8;
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 242, 254, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(79, 172, 254, 0.08) 0%, transparent 40%);
+            background-attachment: fixed;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Премиальная шапка */
+        header {
+            background: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 18px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            opacity: 0.85;
+            transition: opacity 0.3s, color 0.3s;
+            cursor: pointer;
+        }
+
+        nav ul li a:hover {
+            opacity: 1;
+            color: var(--accent-color);
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-control {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--card-border);
+            padding: 8px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .btn-control:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        /* Заголовок страницы новостей */
+        .page-header {
+            padding: 80px 20px 40px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 44px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .page-header h1 span {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-header p {
+            font-size: 18px;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Сетка новостей */
+        .section {
+            padding: 40px 0 80px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.3s;
+        }
+
+        .news-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-secondary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-color);
+        }
+
+        .news-card:hover::before {
+            opacity: 1;
+        }
+
+        .news-date {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .news-card h3 {
+            margin-bottom: 15px;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .news-card p {
+            font-size: 15px;
+            opacity: 0.75;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .news-btn {
+            align-self: flex-start;
+            background: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--card-border);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .news-btn:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        /* Футер */
+        footer {
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--card-border);
+            text-align: center;
+            padding: 50px 0;
+            margin-top: 80px;
+            opacity: 0.85;
+            font-size: 14px;
+        }
+        /* Адаптивность для смартфонов и планшетов (экраны меньше 768px) */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 0 10px;
+    }
+
+    /* Шапка и навигация */
+    header .container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .nav-wrapper {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    nav ul li a {
+        font-size: 14px;
+    }
+
+    /* Заголовки и тексты */
+    .hero {
+        padding: 60px 15px 50px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+        line-height: 1.3;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .section-title, .page-header h1 {
+        font-size: 28px !important;
+    }
+
+    /* Сетки карточек и формы в одну колонку */
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .apply-container, .quiz-container {
+        padding: 20px 15px;
+        margin: 0 10px;
+    }
+
+    /* ИИ Чат виджет на телефоне */
+    .ai-chat-window {
+        width: 90% !important;
+        right: 5% !important;
+        bottom: 90px !important;
+        height: 380px;
+    }
+
+    .ai-chat-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 55px;
+        height: 55px;
+        font-size: 22px;
+    }
+}
+    </style>
+</head>
+<body data-theme="dark">
+
+    <!-- Шапка -->
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">JONI<span>.TJ</span></a>
+            <div class="nav-wrapper">
+                <nav>
+                    <ul>
+                        <li><a href="index.html" data-ru="Главная" data-tj="Асосӣ">Главная</a></li>
+                        <li><a href="index.html#faculties" data-ru="Факультеты" data-tj="Факултетҳо">Факультеты</a></li>
+                        <li><a href="news.html" data-ru="Новости" data-tj="Хабарҳо">Новости</a></li>
+                        <li><a href="index.html#apply" data-ru="Подать заявку" data-tj="Пешниҳоди ариза">Подать заявку</a></li>
+                    </ul>
+                </nav>
+                <div class="controls">
+                    <button class="btn-control" id="langToggle" onclick="toggleLanguage()">TJ</button>
+                    <button class="btn-control" id="themeToggle" onclick="toggleTheme()">☀️</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Заголовок -->
+    <div class="page-header">
+        <h1 id="newsHeaderTitle">Последние <span>новости</span> университета</h1>
+        <p id="newsHeaderDesc">Будьте в курсе всех событий, академических достижений и технологических инноваций Joni.tj.</p>
+    </div>
+
+    <!-- Список новостей -->
+    <section class="section container">
+        <div class="grid">
+            <div class="news-card">
+                <div>
+                    <div class="news-date">18 Октября, 2026</div>
+                    <h3 id="n1Title">Запуск новой лаборатории искусственного интеллекта</h3>
+                    <p id="n1Desc">В университете открылась ультрасовременная лаборатория для студентов IT-факультета, оснащенная мощными графическими станциями для обучения нейросетей.</p>
+                </div>
+                <a href="#" class="news-btn" id="btnMore1">Читать далее</a>
+            </div>
+
+            <div class="news-card">
+                <div>
+                    <div class="news-date">12 Октября, 2026</div>
+                    <h3 id="n2Title">Международная конференция по цифровой экономике</h3>
+                    <p id="n2Desc">Ведущие эксперты финтех-индустрии и преподаватели нашего вуза обсудили перспективы внедрения блокчейн-технологий в финансовый сектор.</p>
+                </div>
+                <a href="#" class="news-btn" id="btnMore2">Читать далее</a>
+            </div>
+
+            <div class="news-card">
+                <div>
+                    <div class="news-date">05 Октября, 2026</div>
+                    <h3 id="n3Title">Старт грантовой программы для талантливых абитуриентов</h3>
+                    <p id="n3Desc">Joni.tj объявляет о выделении 50 полных грантов на обучение по направлениям кибербезопасности, программирования и мировой экономики.</p>
+                </div>
+                <a href="#" class="news-btn" id="btnMore3">Читать далее</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <p id="footerText">&copy; 2026 Цифровой университетский портал Joni.tj. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentLang = 'ru';
+        let currentTheme = 'dark';
+
+        function toggleTheme() {
+            const themeBtn = document.getElementById('themeToggle');
+            if (currentTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'light');
+                themeBtn.textContent = '🌙';
+                currentTheme = 'light';
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                themeBtn.textContent = '☀️';
+                currentTheme = 'dark';
+            }
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ru' ? 'tj' : 'ru';
+            document.getElementById('langToggle').textContent = currentLang === 'ru' ? 'TJ' : 'RU';
+            updateTexts();
+        }
+
+        function updateTexts() {
+            const t = translations[currentLang];
+            document.getElementById('newsHeaderTitle').innerHTML = t.newsHeaderTitle;
+            document.getElementById('newsHeaderDesc').textContent = t.newsHeaderDesc;
+            
+            document.getElementById('n1Title').textContent = t.n1Title;
+            document.getElementById('n1Desc').textContent = t.n1Desc;
+            document.getElementById('n2Title').textContent = t.n2Title;
+            document.getElementById('n2Desc').textContent = t.n2Desc;
+            document.getElementById('n3Title').textContent = t.n3Title;
+            document.getElementById('n3Desc').textContent = t.n3Desc;
+
+            document.getElementById('btnMore1').textContent = t.btnMore;
+            document.getElementById('btnMore2').textContent = t.btnMore;
+            document.getElementById('btnMore3').textContent = t.btnMore;
+            document.getElementById('footerText').textContent = t.footerText;
+        }
+
+        const translations = {
+            ru: {
+                newsHeaderTitle: "Последние <span>новости</span> университета",
+                newsHeaderDesc: "Будьте в курсе всех событий, академических достижений и технологических инноваций Joni.tj.",
+                n1Title: "Запуск новой лаборатории искусственного интеллекта",
+                n1Desc: "В университете открылась ультрасовременная лаборатория для студентов IT-факультета, оснащенная мощными графическими станциями для обучения нейросетей.",
+                n2Title: "Международная конференция по цифровой экономике",
+                n2Desc: "Ведущие эксперты финтех-индустрии и преподаватели нашего вуза обсудили перспективы внедрения блокчейн-технологий в финансовый сектор.",
+                n3Title: "Старт грантовой программы для талантливых абитуриентов",
+                n3Desc: "Joni.tj объявляет о выделении 50 полных грантов на обучение по направлениям кибербезопасности, программирования и мировой экономики.",
+                btnMore: "Читать далее",
+                footerText: "© 2026 Цифровой университетский портал Joni.tj. Все права защищены."
+            },
+            tj: {
+                newsHeaderTitle: "Хабарҳои <span>охирини</span> донишгоҳ",
+                newsHeaderDesc: "Аз ҳамаи рӯйдодҳо, дастовардҳои таълимӣ ва навовариҳои технологии Joni.tj огоҳ бошед.",
+                n1Title: "Кушода шудани лабораторияи нави зеҳни сунъӣ",
+                n1Desc: "Дар донишгоҳ лабораторияи муосир барои донишҷӯёни факултети IT бо пойгоҳҳои пуриқтидори графикии коркарди нейросетьҳо ба кор оғоз кард.",
+                n2Title: "Конфронси байналмилалӣ оид ба иқтисоди рақамӣ",
+                n2Desc: "Коршиносони пешбари соҳаи финтех ва омӯзгорони донишгоҳи мо дурнамои ҷорӣ кардани технологияҳои блокчейнро баррасӣ карданд.",
+                n3Title: "Оғози барномаи грантӣ барои довталабони боистеъдод",
+                n3Desc: "Joni.tj дар бораи ҷудо кардани 50 гранти пурра барои таҳсил дар самтҳои кибербезопасӣ, барномасозӣ ва иқтисоди ҷаҳонӣ эълон мекунад.",
+                btnMore: "Муфассалтар",
+                footerText: "© 2026 Портали университетии рақамии Joni.tj. Ҳамаи ҳуқуқҳо ҳифз шудаанд."
+            }
+        };
+    </script>
+</body>
+</html>
